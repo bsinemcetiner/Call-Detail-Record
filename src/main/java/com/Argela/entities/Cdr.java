@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CDR {
+public class Cdr {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
