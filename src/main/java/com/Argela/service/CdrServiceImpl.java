@@ -35,6 +35,6 @@ public class CdrServiceImpl implements CdrService {
 
     @Override
     public List<Cdr> getByCaller(String aNumber) {
-        return cdrRepository.findByANumber(aNumber);
+        return cdrRepository.findByaNumber(aNumber);
     }
 }

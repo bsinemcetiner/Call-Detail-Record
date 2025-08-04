@@ -13,5 +13,19 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: minicdr-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cdr_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
 volumes:
   pgdata:
