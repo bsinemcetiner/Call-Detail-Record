@@ -1,22 +1,17 @@
-package com.Argela.entities;
+package com.Argela.dataTransferObject;
 
-import jakarta.persistence.*;
-import lombok.*;
-import java.util.Date;
 import com.Argela.enums.Direction;
 import com.Argela.enums.Result;
+import lombok.*;
 
-@Entity
-@Getter
-@Setter
+import java.util.Date;
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Cdr {
+public class CdrRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private Date startTime;
     private Date endTime;
     private String imsi;
@@ -27,8 +22,6 @@ public class Cdr {
     private String bNumber;
     private Long setupDuration;
     private Long conversationDuration;
-    @Enumerated(EnumType.STRING)
     private Direction direction;
-    @Enumerated(EnumType.STRING)
     private Result result;
 }
