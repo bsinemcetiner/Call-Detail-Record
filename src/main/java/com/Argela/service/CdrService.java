@@ -1,13 +1,13 @@
 package com.Argela.service;
 
 import com.Argela.dataTransferObject.CdrRequest;
-import com.Argela.entities.Cdr;
+import com.Argela.dataTransferObject.CdrResponse;
+
 import java.util.List;
 
 public interface CdrService {
-    Cdr save(CdrRequest request);
-    List<Cdr> saveAll(List<CdrRequest> requestList);
-    List<Cdr> getAll();
-    List<Cdr> getByCaller(String aNumber);
+    CdrResponse save(CdrRequest request);
+    List<CdrResponse> saveAll(List<CdrRequest> requestList);
+    List<CdrResponse> getAll();
+    List<CdrResponse> getByCaller(String aNumber);
 }
-

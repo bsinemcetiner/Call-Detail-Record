@@ -12,3 +12,14 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   application:
     name: Call-Detail-Record
+
+logging:
+  level:
+    com:
+      Argela: DEBUG
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui/index.html

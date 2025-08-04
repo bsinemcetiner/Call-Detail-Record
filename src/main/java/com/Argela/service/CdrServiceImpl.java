@@ -1,6 +1,7 @@
 package com.Argela.service;
 
 import com.Argela.dataTransferObject.CdrRequest;
+import com.Argela.dataTransferObject.CdrResponse;
 import com.Argela.entities.Cdr;
 import com.Argela.mapper.CdrMapper;
 import com.Argela.repository.CdrRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CdrServiceImpl implements CdrService {
@@ -17,24 +19,36 @@ public class CdrServiceImpl implements CdrService {
     private final CdrMapper cdrMapper;
 
     @Override
-    public Cdr save(CdrRequest request) {
-        return cdrRepository.save(cdrMapper.toEntity(request));
+    public CdrResponse save(CdrRequest request) {
+        Cdr saved = cdrRepository.save(cdrMapper.toEntity(request));
+        return cdrMapper.toResponse(saved);
     }
 
     @Override
-    public List<Cdr> saveAll(List<CdrRequest> requestList) {
-        return requestList.stream()
-                .map(cdrMapper::toEntity)
-                .collect(Collectors.collectingAndThen(Collectors.toList(), cdrRepository::saveAll));
+    public List<CdrResponse> saveAll(List<CdrRequest> requestList) {
+        List<Cdr> savedList = cdrRepository.saveAll(
+                requestList.stream()
+                        .map(cdrMapper::toEntity)
+                        .collect(Collectors.toList())
+        );
+        return savedList.stream()
+                .map(cdrMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Cdr> getAll() {
-        return cdrRepository.findAll();
+    public List<CdrResponse> getAll() {
+        return cdrRepository.findAll()
+                .stream()
+                .map(cdrMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Cdr> getByCaller(String aNumber) {
-        return cdrRepository.findByaNumber(aNumber);
+    public List<CdrResponse> getByCaller(String aNumber) {
+        return cdrRepository.findByaNumber(aNumber)
+                .stream()
+                .map(cdrMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }
