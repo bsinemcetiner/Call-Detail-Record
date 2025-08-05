@@ -1,4 +1,4 @@
-#  Mini Call Detail Record (CDR) Processing & Reporting System
+#  Mini Call Detail Record (CDR)
 
 This repository contains the source code for a backend service that processes and stores telecommunication Call Detail Records (CDRs). It is built using Spring Boot and uses PostgreSQL as the underlying database. The application can be easily deployed using Docker and Docker Compose.
 
@@ -44,7 +44,7 @@ docker logs -f minicdr-app
 ## Interacting with the API (Swagger / Postman)
 
 The application runs at:  
-- `http://localhost:8080`
+- [http://localhost:8080/api/cdrs](http://localhost:8080/api/cdrs)
 
 You can interact with the REST API using:
 
