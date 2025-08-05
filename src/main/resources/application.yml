@@ -15,8 +15,11 @@ spring:
 
 logging:
   level:
-    com:
-      Argela: DEBUG
+    root: INFO
+    com.Argela.aop: DEBUG
+    com.Argela.controller: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
 
 springdoc:
   api-docs:

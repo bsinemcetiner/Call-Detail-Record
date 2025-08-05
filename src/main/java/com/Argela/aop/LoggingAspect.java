@@ -15,7 +15,7 @@ public class LoggingAspect {
 
     @Before("controllerMethods()")
     public void logBefore(JoinPoint joinPoint) {
-        log.debug("Giriş: {}.{}() args: {}",
+        log.debug("Entering: {}.{}() with arguments: {}",
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(),
                 joinPoint.getArgs());
@@ -23,7 +23,7 @@ public class LoggingAspect {
 
     @AfterReturning(pointcut = "controllerMethods()", returning = "result")
     public void logAfter(JoinPoint joinPoint, Object result) {
-        log.debug("Çıkış: {}.{}() sonucu: {}",
+        log.debug("Exiting: {}.{}() with result: {}",
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(),
                 result);
@@ -31,7 +31,7 @@ public class LoggingAspect {
 
     @AfterThrowing(pointcut = "controllerMethods()", throwing = "e")
     public void logException(JoinPoint joinPoint, Throwable e) {
-        log.error("HATA: {}.{}() hata: {}",
+        log.error("EXCEPTION in {}.{}() with error: {}",
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(),
                 e.getMessage(), e);
