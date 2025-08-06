@@ -1,0 +1,141 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "com.Argela.aop" {
+    class LoggingAspect {
+        + controllerMethods()
+        + logBefore(joinPoint: JoinPoint)
+        + logAfter(joinPoint: JoinPoint, result: Object)
+        + logException(joinPoint: JoinPoint, e: Throwable)
+    }
+}
+
+package "com.Argela.controller" {
+    class CdrController {
+        - cdrService: CdrService
+        + save(request: CdrRequest): CdrResponse
+        + saveBatch(requestList: List<CdrRequest>): List<CdrResponse>
+        + getAll(): List<CdrResponse>
+        + getByCaller(number: String): List<CdrResponse>
+    }
+}
+
+package "com.Argela.dataTransferObject" {
+    class CdrRequest {
+        - startTime: Date
+        - endTime: Date
+        - imsi: String
+        - imei: String
+        - cellId: Integer
+        - lacId: Integer
+        - setupDuration: Long
+        - conversationDuration: Long
+        - direction: Direction
+        - result: Result
+        - anumber: String
+        - bnumber: String
+    }
+    class CdrResponse {
+        - id: Long
+        - startTime: Date
+        - endTime: Date
+        - imsi: String
+        - imei: String
+        - cellId: Integer
+        - lacId: Integer
+        - anumber: String
+        - bnumber: String
+        - setupDuration: Long
+        - conversationDuration: Long
+        - direction: Direction
+        - result: Result
+    }
+}
+
+package "com.Argela.entities" {
+    class Cdr {
+        - id: Long
+        - startTime: Date
+        - endTime: Date
+        - imsi: String
+        - imei: String
+        - cellId: Integer
+        - lacId: Integer
+        - aNumber: String
+        - bNumber: String
+        - setupDuration: Long
+        - conversationDuration: Long
+        - direction: Direction
+        - result: Result
+    }
+}
+
+package "com.Argela.enums" {
+    enum Direction {
+        MO
+        MT
+    }
+    enum Result {
+        SUCCESS
+        FAIL
+    }
+}
+
+package "com.Argela.mapper" {
+    class CdrMapper {
+        + toEntity(request: CdrRequest): Cdr
+        + toResponse(entity: Cdr): CdrResponse
+    }
+}
+
+package "com.Argela.repository" {
+    interface "JpaRepository<Cdr, Long>" as JpaRepo
+    interface CdrRepository {
+        + findByaNumber(aNumber: String): List<Cdr>
+    }
+}
+
+package "com.Argela.service" {
+    interface CdrService {
+        + save(request: CdrRequest): CdrResponse
+        + saveAll(requestList: List<CdrRequest>): List<CdrResponse>
+        + getAll(): List<CdrResponse>
+        + getByCaller(aNumber: String): List<CdrResponse>
+    }
+    class CdrServiceImpl {
+        - cdrRepository: CdrRepository
+        - cdrMapper: CdrMapper
+        + save(request: CdrRequest): CdrResponse
+        + saveAll(requestList: List<CdrRequest>): List<CdrResponse>
+        + getAll(): List<CdrResponse>
+        + getByCaller(aNumber: String): List<CdrResponse>
+    }
+}
+
+CdrController ..> CdrService : <<uses>>
+CdrController ..> CdrRequest : <<receives>>
+CdrController ..> CdrResponse : <<returns>>
+LoggingAspect ..> CdrController : <<advises>>
+
+CdrService <|-- CdrServiceImpl : <<implements>>
+CdrServiceImpl ..> CdrRepository : <<uses>>
+CdrServiceImpl ..> CdrMapper : <<uses>>
+CdrServiceImpl ..> CdrRequest : <<receives>>
+CdrServiceImpl ..> CdrResponse : <<returns>>
+CdrServiceImpl ..> Cdr : <<manages>>
+
+CdrRepository <|-- JpaRepo : <<extends>>
+CdrRepository ..> Cdr : <<manages>>
+
+CdrMapper ..> CdrRequest : <<converts from>>
+CdrMapper ..> CdrResponse : <<converts to>>
+CdrMapper ..> Cdr : <<converts>>
+
+CdrRequest ..> Direction : <<uses>>
+CdrRequest ..> Result : <<uses>>
+CdrResponse ..> Direction : <<uses>>
+CdrResponse ..> Result : <<uses>>
+Cdr ..> Direction : <<uses>>
+Cdr ..> Result : <<uses>>
+
+@enduml
